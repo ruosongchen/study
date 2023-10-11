@@ -440,6 +440,14 @@ public class ImportTest {
 
 运行后打印的JSON字符串,用JSON工具解析发现完全是想要的效果，成功搞定！
 
-![图1](E:\大数据全栈工程师\学习笔记\EasyExcel\图1.png)
-
 参考链接：[EasyExcel导入存在合并单元格的Excel (csdn.net)](read://https_blog.csdn.net/?url=https%3A%2F%2Fblog.csdn.net%2Fa1275302036%2Farticle%2Fdetails%2F119545551)
+
+----
+
+问题1：Excel解析时报错：Convert excel format exception.You can try specifying the ‘excelType‘ yourself
+
+原因：因为在通过file获取的流类型，在EasyExcel.read读的时候，采用的同一个流，会导致excel类型出错。
+
+问题2：Handler dispatch failed; nested exception is java.lang.NoSuchMethodError: org.apache.poi.ss.usermodel.Cell.getCellType()Lorg/apache/poi/ss/usermodel/CellType
+
+原因：版本冲突
