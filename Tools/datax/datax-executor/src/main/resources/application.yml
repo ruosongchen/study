@@ -1,0 +1,34 @@
+# web port
+server:
+  #port: ${server.port}
+  port: 9801
+
+# 日志路径
+logging:
+  config: classpath:logback.xml
+  path: ./data/applogs/executor/jobhandler
+
+datax:
+  job:
+    admin:
+      ### datax admin address list, http://address01,http://address02"，data-admin的地址
+      addresses: http://127.0.0.1:9800
+    executor:
+      appname: datax-executor # 创建执行器时的AppName需要和这里保持一致
+      ip:
+      port: 9999 # 执行器端口号
+      ### job log path job文件的执行日志
+      logpath: ./data/applogs/executor/jobhandler
+      ### job log retention days
+      logretentiondays: 30
+    ### job, access token
+    accessToken:
+
+  executor:
+    #  datax json临时文件保存路径
+    jsonpath: D:\WorkSpace\CodeProject\wjzn_datax\temp\executor
+    #jsonpath: ${json.path}
+
+  # Datax执行文件datax.py的地址
+  pypath: D:\App\datax\bin\datax.py
+  #pypath: ${python.path}
