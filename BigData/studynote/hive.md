@@ -4,29 +4,31 @@ Hive简介：
 
 解决什么问题：
 
-​	1、存储元数据，统一管理
-
-​	2、用sql来分析数据，学习成本低
+	1、存储元数据，统一管理
+	
+	2、用sql来分析数据，学习成本低
 
 角色：元数据	
 
 hive的产生：非java编程者对hdfs的数据做mapreduce操作		
 
-hvie和数据的区别	数据仓库：本质是mapreduce，写代码的方式变了，用sql方式分析数据
+本质是mapreduce，写代码的方式变了，用sql方式分析数据
+
+数据仓库和数据库的3点区别	
 
 ​		    1、数据库用来接收用户请求，并在很短的时效内要返回用户结果，而数据仓库不需要，
 
 ​			2、数据仓库可以收纳各种数据源的数据（oracle、mysql、mongodb），而数据库不行
 
-​			3、关系型数据库可以修改，而数据仓库不能修改
+​			3、关系型数据库可以修改，而数据仓库不能修改，数据历史状态都会保留
 
-Hive：解释器，编译器，优化器
+sql ->  mapreduce
+
+Hive组件：解释器，编译器，优化器
 
 Hive 运行时，元数据存储在关系数据库里面（可以采用多种，这里用mysql）
 
-Hive架构：
-
-架构图：
+Hive架构图：
 
 ​	CLI：命令行接口
 
@@ -34,7 +36,9 @@ Hive架构：
 
 ​	WEB GUI：web页面接口（淘汰），集成HUE
 
-​	Thrift Server：rpc远程调用接口
+
+
+​	Thrift Server：rpc远程过程调用
 
 ​	Driver：核心
 
@@ -46,17 +50,31 @@ Metastore	Driver	Hadoop
 
 Compiler
 
+Hive架构：
+
+​	（1）用户接口主要有三个：CLI，Client，WUI。其中最常用的是CLI，CLI启动的时候，会同时启动一个Hive副本，Client是Hive的客户端，用户连接至Hive Server。在启动Client模式的时候，需要指出Hive Server所在节点，并且在该节点启动Hive Server。WUI是通过浏览器访问Hive
+
+​	（2）Hive将元数据存储在数据库中，如mysql、derby。Hive中的元数据包包括表的名字，表的列和分区及其属性，表的属性（是否为外部表等），表的数据所在目录等
+
+​	（3）解释器、编译器、优化器完成HQL查询语句从词法分析、语法分析、编译、优化以及查询计划的生成。生成的查询计划存储在HDFS中，并在随后有MapReduce调用执行
+
+​	（4）Hive的数据存储在HDFS中，大部分的查询，计算由MapReduce完成（包含*的查询，比如select * from tbl不会生成MapReduce任务）
+
+没有元数据：Client -> Driver  -> Metastore  -> Driver   -> Client 
+
+有元数据：Client -> Driver  -> Metastore ->Driver  - >Compiler->Driver  ->Hadoop ->Driver    ->Client 
+
 Hive搭建模式
 
 1、本地模式：连接到一个In-memory的数据库Derby
 
 ​				内存数据库，关机后数据丢失
 
-2、远程服务器模式：通过网络连接到一个数据库中，是最经常使用的模式
+2、远程服务器模式：通过网络连接到一个数据库中，是最经常使用的模式（2台虚假机）
 
 ​				学习时
 
-3、远程服务器模式
+3、远程服务器模式（MetaStroreServer独立出来，企业生产环境）
 
 ​		用于非Java客户端访问元数据库，在服务器端启动MetaStoreServer，客户端利用Thrift协议通过		MetaStroreServer访问元数据库
 
@@ -77,8 +95,8 @@ mysql
 	查看表数据
 	select host,user,password from user;
 	增加数据
-	grant all privileges on *.* to 'root'@'%' identified by '123' with grant option;
-	delet form user where host!='%';
+	grant all privileges on *.* to 'root'@'%' identified by 'root123' with grant option;
+	delete from user where host!='%';
 	刷新权限或者重启mysqld的服务（service mysqld restart）
 	mysql;
 	flush privileges;
@@ -138,9 +156,38 @@ mysql
 4、添加MYSQL的驱动包拷贝到lib目录
 5、执行初始化元数据数据库的步骤
 	schematool -dbType mysql -initSchema
-6、执行hive启动对应的服务
-7、执行相应的hive SQL的基本操作
+6、执行hive启动对应的服务  
+提示：
+	Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
 
+7、执行相应的hive SQL的基本操作
+Hive：
+    show tables;
+    show databases;
+    default
+    create table tbl(id int,age int);
+    select * from tbl;
+    desc tbl;
+    desc formatted tbl;
+    insert into tbl values(1,1);
+
+mysql：
+	SELECT * FROM TBLS;
+	SELECT * FROM COLUMNS_V2;
+hdfs:
+	hdfs dfs -ls -R /user/hive/warehouse
+	hdfs dfs -cat /user/hive/warehouse/tbl/000000_0
+	
+查看分隔符：
+    hdfs dfs -get /user/hive/warehouse/tbl/*;
+    cat 000000_0
+    cat -A 000000_0
+分隔符不可见，一定有默认的分隔符:
+    ctrl+v  ctrl+a
+    ctrl+v  ctrl+b
+    ctrl+v  ctrl+c
+    ctrl+v  ctrl+d
+    ctrl+v  ctrl+e
 ```
 
 1、文件元数据	->	hdfs nn
@@ -469,3 +516,20 @@ map keys terminated by ':';
 insert overwrite local directory  '/root/result' select * from psn;
 ```
 
+权限管理：
+
+​	官网4种：
+
+​	3种：
+
+​			1、Storage Based Autorization in the Metastore Server
+
+​				基于存储的授权-可以对Metastore中的元数据进行保护，但是没有提供更加细粒度的访问控制（例如：列级别、行级别）
+
+​			2、SQL Standards Based Authorization in HiveServer2
+
+​				基于SQL标准的Hive授权-完全兼容SQL的授权模型，推荐使用该模式。
+
+​			3、Default Hive 
+
+​		
