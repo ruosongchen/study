@@ -1,0 +1,146 @@
+2023-03-08 16:42:46.406 [main] INFO  MessageSource - JVM TimeZone: GMT+08:00, Locale: zh_CN
+2023-03-08 16:42:46.408 [main] INFO  MessageSource - use Locale: zh_CN timeZone: sun.util.calendar.ZoneInfo[id="GMT+08:00",offset=28800000,dstSavings=0,useDaylight=false,transitions=0,lastRule=null]
+2023-03-08 16:42:46.416 [main] INFO  VMInfo - VMInfo# operatingSystem class => sun.management.OperatingSystemImpl
+2023-03-08 16:42:46.420 [main] INFO  Engine - the machine info  => 
+
+	osInfo:	Oracle Corporation 1.8 25.202-b08
+	jvmInfo:	Windows 10 amd64 10.0
+	cpu num:	8
+
+	totalPhysicalMemory:	-0.00G
+	freePhysicalMemory:	-0.00G
+	maxFileDescriptorCount:	-1
+	currentOpenFileDescriptorCount:	-1
+
+	GC Names	[PS MarkSweep, PS Scavenge]
+
+	MEMORY_NAME                    | allocation_size                | init_size                      
+	PS Eden Space                  | 256.00MB                       | 256.00MB                       
+	Code Cache                     | 240.00MB                       | 2.44MB                         
+	Compressed Class Space         | 1,024.00MB                     | 0.00MB                         
+	PS Survivor Space              | 42.50MB                        | 42.50MB                        
+	PS Old Gen                     | 683.00MB                       | 683.00MB                       
+	Metaspace                      | -0.00MB                        | 0.00MB                         
+
+
+2023-03-08 16:42:46.436 [main] INFO  Engine - 
+{
+	"content":[
+		{
+			"reader":{
+				"name":"mysqlreader",
+				"parameter":{
+					"connection":[
+						{
+							"jdbcUrl":[
+								"jdbc:mysql://192.168.90.191:3306/fjxt_jyc?serverTimezone=Asia/Shanghai&useLegacyDatetimeCode=false&useSSL=false&nullNamePatternMatchesAll=true&useUnicode=true&characterEncoding=UTF-8"
+							],
+							"querySql":[
+								"select * FROM ysgs"
+							]
+						}
+					],
+					"password":"*******",
+					"splitPk":"",
+					"username":"root"
+				}
+			},
+			"writer":{
+				"name":"mysqlwriter",
+				"parameter":{
+					"column":[
+						"`id`",
+						"`create_by`",
+						"`create_time`",
+						"`del_flag`",
+						"`update_by`",
+						"`update_time`",
+						"`node_id`",
+						"`type`",
+						"`relate_id`"
+					],
+					"connection":[
+						{
+							"jdbcUrl":"jdbc:mysql://127.0.0.1:3306/fjxt_jyc?serverTimezone=Asia/Shanghai&useLegacyDatetimeCode=false&useSSL=false&nullNamePatternMatchesAll=true&useUnicode=true&characterEncoding=UTF-8",
+							"table":[
+								"ysgs"
+							]
+						}
+					],
+					"password":"******",
+					"username":"root"
+				}
+			}
+		}
+	],
+	"setting":{
+		"errorLimit":{
+			"percentage":0.02,
+			"record":0
+		},
+		"speed":{
+			"byte":1048576,
+			"channel":3
+		}
+	}
+}
+
+2023-03-08 16:42:46.450 [main] WARN  Engine - prioriy set to 0, because NumberFormatException, the value is: null
+2023-03-08 16:42:46.451 [main] INFO  PerfTrace - PerfTrace traceId=job_-1, isEnable=false, priority=0
+2023-03-08 16:42:46.451 [main] INFO  JobContainer - DataX jobContainer starts job.
+2023-03-08 16:42:46.452 [main] INFO  JobContainer - Set jobId = 0
+2023-03-08 16:42:46.754 [job-0] INFO  OriginalConfPretreatmentUtil - Available jdbcUrl:jdbc:mysql://192.168.90.191:3306/fjxt_jyc?serverTimezone=Asia/Shanghai&useLegacyDatetimeCode=false&useSSL=false&nullNamePatternMatchesAll=true&useUnicode=true&characterEncoding=UTF-8&yearIsDateType=false&zeroDateTimeBehavior=convertToNull&tinyInt1isBit=false&rewriteBatchedStatements=true.
+2023-03-08 16:42:46.909 [job-0] INFO  OriginalConfPretreatmentUtil - table:[ysgs] all columns:[
+id,create_by,create_time,del_flag,update_by,update_time,node_id,type,relate_id
+].
+2023-03-08 16:42:46.918 [job-0] INFO  OriginalConfPretreatmentUtil - Write data [
+INSERT INTO %s (`id`,`create_by`,`create_time`,`del_flag`,`update_by`,`update_time`,`node_id`,`type`,`relate_id`) VALUES(?,?,?,?,?,?,?,?,?)
+], which jdbcUrl like:[jdbc:mysql://127.0.0.1:3306/fjxt_jyc?serverTimezone=Asia/Shanghai&useLegacyDatetimeCode=false&useSSL=false&nullNamePatternMatchesAll=true&useUnicode=true&characterEncoding=UTF-8&yearIsDateType=false&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true&tinyInt1isBit=false]
+2023-03-08 16:42:46.919 [job-0] INFO  JobContainer - jobContainer starts to do prepare ...
+2023-03-08 16:42:46.919 [job-0] INFO  JobContainer - DataX Reader.Job [mysqlreader] do prepare work .
+2023-03-08 16:42:46.920 [job-0] INFO  JobContainer - DataX Writer.Job [mysqlwriter] do prepare work .
+2023-03-08 16:42:46.920 [job-0] INFO  JobContainer - jobContainer starts to do split ...
+2023-03-08 16:42:46.921 [job-0] INFO  JobContainer - Job set Max-Byte-Speed to 1048576 bytes.
+2023-03-08 16:42:46.923 [job-0] INFO  JobContainer - DataX Reader.Job [mysqlreader] splits to [1] tasks.
+2023-03-08 16:42:46.924 [job-0] INFO  JobContainer - DataX Writer.Job [mysqlwriter] splits to [1] tasks.
+2023-03-08 16:42:46.945 [job-0] INFO  JobContainer - jobContainer starts to do schedule ...
+2023-03-08 16:42:46.949 [job-0] INFO  JobContainer - Scheduler starts [1] taskGroups.
+2023-03-08 16:42:46.952 [job-0] INFO  JobContainer - Running by standalone Mode.
+2023-03-08 16:42:46.956 [taskGroup-0] INFO  TaskGroupContainer - taskGroupId=[0] start [1] channels for [1] tasks.
+2023-03-08 16:42:46.960 [taskGroup-0] INFO  Channel - Channel set byte_speed_limit to 2000000.
+2023-03-08 16:42:46.960 [taskGroup-0] INFO  Channel - Channel set record_speed_limit to -1, No tps activated.
+2023-03-08 16:42:46.969 [taskGroup-0] INFO  TaskGroupContainer - taskGroup[0] taskId[0] attemptCount[1] is started
+2023-03-08 16:42:46.972 [0-0-0-reader] INFO  CommonRdbmsReader$Task - Begin to read record by Sql: [select * FROM ysgs
+] jdbcUrl:[jdbc:mysql://192.168.90.191:3306/fjxt_jyc?serverTimezone=Asia/Shanghai&useLegacyDatetimeCode=false&useSSL=false&nullNamePatternMatchesAll=true&useUnicode=true&characterEncoding=UTF-8&yearIsDateType=false&zeroDateTimeBehavior=convertToNull&tinyInt1isBit=false&rewriteBatchedStatements=true].
+2023-03-08 16:42:47.107 [0-0-0-reader] INFO  CommonRdbmsReader$Task - Finished read record by Sql: [select * FROM ysgs
+] jdbcUrl:[jdbc:mysql://192.168.90.191:3306/fjxt_jyc?serverTimezone=Asia/Shanghai&useLegacyDatetimeCode=false&useSSL=false&nullNamePatternMatchesAll=true&useUnicode=true&characterEncoding=UTF-8&yearIsDateType=false&zeroDateTimeBehavior=convertToNull&tinyInt1isBit=false&rewriteBatchedStatements=true].
+2023-03-08 16:42:47.189 [taskGroup-0] INFO  TaskGroupContainer - taskGroup[0] taskId[0] is successed, used[221]ms
+2023-03-08 16:42:47.190 [taskGroup-0] INFO  TaskGroupContainer - taskGroup[0] completed it's tasks.
+2023-03-08 16:42:56.979 [job-0] INFO  StandAloneJobContainerCommunicator - Total 26 records, 1777 bytes | Speed 177B/s, 2 records/s | Error 0 records, 0 bytes |  All Task WaitWriterTime 0.000s |  All Task WaitReaderTime 0.000s | Percentage 100.00%
+2023-03-08 16:42:56.980 [job-0] INFO  AbstractScheduler - Scheduler accomplished all tasks.
+2023-03-08 16:42:56.981 [job-0] INFO  JobContainer - DataX Writer.Job [mysqlwriter] do post work.
+2023-03-08 16:42:56.982 [job-0] INFO  JobContainer - DataX Reader.Job [mysqlreader] do post work.
+2023-03-08 16:42:56.982 [job-0] INFO  JobContainer - DataX jobId [0] completed successfully.
+2023-03-08 16:42:56.984 [job-0] INFO  HookInvoker - No hook invoked, because base dir not exists or is a file: D:\App\datax\hook
+2023-03-08 16:42:56.988 [job-0] INFO  JobContainer - 
+	 [total cpu info] => 
+		averageCpu                     | maxDeltaCpu                    | minDeltaCpu                    
+		-1.00%                         | -1.00%                         | -1.00%
+                        
+
+	 [total gc info] => 
+		 NAME                 | totalGCCount       | maxDeltaGCCount    | minDeltaGCCount    | totalGCTime        | maxDeltaGCTime     | minDeltaGCTime     
+		 PS MarkSweep         | 0                  | 0                  | 0                  | 0.000s             | 0.000s             | 0.000s             
+		 PS Scavenge          | 0                  | 0                  | 0                  | 0.000s             | 0.000s             | 0.000s             
+
+2023-03-08 16:42:56.988 [job-0] INFO  JobContainer - PerfTrace not enable!
+2023-03-08 16:42:56.990 [job-0] INFO  StandAloneJobContainerCommunicator - Total 26 records, 1777 bytes | Speed 177B/s, 2 records/s | Error 0 records, 0 bytes |  All Task WaitWriterTime 0.000s |  All Task WaitReaderTime 0.000s | Percentage 100.00%
+2023-03-08 16:42:57.012 [job-0] INFO  JobContainer - 
+任务启动时刻                    : 2023-03-08 16:42:46
+任务结束时刻                    : 2023-03-08 16:42:56
+任务总计耗时                    :                 10s
+任务平均流量                    :              177B/s
+记录写入速度                    :              2rec/s
+读出记录总数                    :                  26
+读写失败总数                    :                   0
+

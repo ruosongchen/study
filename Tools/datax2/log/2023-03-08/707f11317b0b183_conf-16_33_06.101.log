@@ -1,0 +1,124 @@
+2023-03-08 16:33:06.257 [main] INFO  MessageSource - JVM TimeZone: GMT+08:00, Locale: zh_CN
+2023-03-08 16:33:06.259 [main] INFO  MessageSource - use Locale: zh_CN timeZone: sun.util.calendar.ZoneInfo[id="GMT+08:00",offset=28800000,dstSavings=0,useDaylight=false,transitions=0,lastRule=null]
+2023-03-08 16:33:06.266 [main] INFO  VMInfo - VMInfo# operatingSystem class => sun.management.OperatingSystemImpl
+2023-03-08 16:33:06.270 [main] INFO  Engine - the machine info  => 
+
+	osInfo:	Oracle Corporation 1.8 25.202-b08
+	jvmInfo:	Windows 10 amd64 10.0
+	cpu num:	8
+
+	totalPhysicalMemory:	-0.00G
+	freePhysicalMemory:	-0.00G
+	maxFileDescriptorCount:	-1
+	currentOpenFileDescriptorCount:	-1
+
+	GC Names	[PS MarkSweep, PS Scavenge]
+
+	MEMORY_NAME                    | allocation_size                | init_size                      
+	PS Eden Space                  | 256.00MB                       | 256.00MB                       
+	Code Cache                     | 240.00MB                       | 2.44MB                         
+	Compressed Class Space         | 1,024.00MB                     | 0.00MB                         
+	PS Survivor Space              | 42.50MB                        | 42.50MB                        
+	PS Old Gen                     | 683.00MB                       | 683.00MB                       
+	Metaspace                      | -0.00MB                        | 0.00MB                         
+
+
+2023-03-08 16:33:06.284 [main] INFO  Engine - 
+{
+	"content":[
+		{
+			"reader":{
+				"name":"mysqlreader",
+				"parameter":{
+					"connection":[
+						{
+							"jdbcUrl":[
+								"jdbc:mysql://192.168.90.191:3306/fjxt_jyc?serverTimezone=Asia/Shanghai&useLegacyDatetimeCode=false&useSSL=false&nullNamePatternMatchesAll=true&useUnicode=true&characterEncoding=UTF-8"
+							],
+							"querySql":[
+								"select * FROM ysgs"
+							]
+						}
+					],
+					"password":"*******",
+					"splitPk":"",
+					"username":"root"
+				}
+			},
+			"writer":{
+				"name":"mysqlwriter",
+				"parameter":{
+					"column":[
+						"`id`",
+						"`create_by`",
+						"`create_time`",
+						"`del_flag`",
+						"`update_by`",
+						"`update_time`",
+						"`node_id`",
+						"`type`",
+						"`relate_id`"
+					],
+					"connection":[
+						{
+							"jdbcUrl":"jdbc:mysql://127.0.0.1:3306/fjxt_jyc?serverTimezone=Asia/Shanghai&useLegacyDatetimeCode=false&useSSL=false&nullNamePatternMatchesAll=true&useUnicode=true&characterEncoding=UTF-8",
+							"table":[
+								"ysgs"
+							]
+						}
+					],
+					"password":"******",
+					"username":"root"
+				}
+			}
+		}
+	],
+	"setting":{
+		"errorLimit":{
+			"percentage":0.02,
+			"record":0
+		},
+		"speed":{
+			"byte":1048576,
+			"channel":3
+		}
+	}
+}
+
+2023-03-08 16:33:06.298 [main] WARN  Engine - prioriy set to 0, because NumberFormatException, the value is: null
+2023-03-08 16:33:06.299 [main] INFO  PerfTrace - PerfTrace traceId=job_-1, isEnable=false, priority=0
+2023-03-08 16:33:06.299 [main] INFO  JobContainer - DataX jobContainer starts job.
+2023-03-08 16:33:06.302 [main] INFO  JobContainer - Set jobId = 0
+2023-03-08 16:33:06.582 [job-0] INFO  OriginalConfPretreatmentUtil - Available jdbcUrl:jdbc:mysql://192.168.90.191:3306/fjxt_jyc?serverTimezone=Asia/Shanghai&useLegacyDatetimeCode=false&useSSL=false&nullNamePatternMatchesAll=true&useUnicode=true&characterEncoding=UTF-8&yearIsDateType=false&zeroDateTimeBehavior=convertToNull&tinyInt1isBit=false&rewriteBatchedStatements=true.
+2023-03-08 16:33:06.728 [job-0] INFO  OriginalConfPretreatmentUtil - table:[ysgs] all columns:[
+id,create_by,create_time,del_flag,update_by,update_time,node_id,type,relate_id
+].
+2023-03-08 16:33:06.734 [job-0] INFO  OriginalConfPretreatmentUtil - Write data [
+INSERT INTO %s (`id`,`create_by`,`create_time`,`del_flag`,`update_by`,`update_time`,`node_id`,`type`,`relate_id`) VALUES(?,?,?,?,?,?,?,?,?)
+], which jdbcUrl like:[jdbc:mysql://127.0.0.1:3306/fjxt_jyc?serverTimezone=Asia/Shanghai&useLegacyDatetimeCode=false&useSSL=false&nullNamePatternMatchesAll=true&useUnicode=true&characterEncoding=UTF-8&yearIsDateType=false&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true&tinyInt1isBit=false]
+2023-03-08 16:33:06.734 [job-0] INFO  JobContainer - jobContainer starts to do prepare ...
+2023-03-08 16:33:06.735 [job-0] INFO  JobContainer - DataX Reader.Job [mysqlreader] do prepare work .
+2023-03-08 16:33:06.736 [job-0] INFO  JobContainer - DataX Writer.Job [mysqlwriter] do prepare work .
+2023-03-08 16:33:06.736 [job-0] INFO  JobContainer - jobContainer starts to do split ...
+2023-03-08 16:33:06.738 [job-0] ERROR JobContainer - Exception when job run
+com.alibaba.datax.common.exception.DataXException: Code:[Framework-03], Description:[DataX引擎配置错误，该问题通常是由于DataX安装错误引起，请联系您的运维解决 .].  - 在有总bps限速条件下，单个channel的bps值不能为空，也不能为非正数
+	at com.alibaba.datax.common.exception.DataXException.asDataXException(DataXException.java:30) ~[datax-common-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.job.JobContainer.adjustChannelNumber(JobContainer.java:430) ~[datax-core-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.job.JobContainer.split(JobContainer.java:387) ~[datax-core-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.job.JobContainer.start(JobContainer.java:117) ~[datax-core-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.Engine.start(Engine.java:93) [datax-core-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.Engine.entry(Engine.java:175) [datax-core-0.0.1-SNAPSHOT.jar:na]
+	at com.alibaba.datax.core.Engine.main(Engine.java:208) [datax-core-0.0.1-SNAPSHOT.jar:na]
+2023-03-08 16:33:06.741 [job-0] INFO  StandAloneJobContainerCommunicator - Total 0 records, 0 bytes | Speed 0B/s, 0 records/s | Error 0 records, 0 bytes |  All Task WaitWriterTime 0.000s |  All Task WaitReaderTime 0.000s | Percentage 0.00%
+2023-03-08 16:33:06.742 [job-0] ERROR Engine - 
+
+经DataX智能分析,该任务最可能的错误原因是:
+com.alibaba.datax.common.exception.DataXException: Code:[Framework-03], Description:[DataX引擎配置错误，该问题通常是由于DataX安装错误引起，请联系您的运维解决 .].  - 在有总bps限速条件下，单个channel的bps值不能为空，也不能为非正数
+	at com.alibaba.datax.common.exception.DataXException.asDataXException(DataXException.java:30)
+	at com.alibaba.datax.core.job.JobContainer.adjustChannelNumber(JobContainer.java:430)
+	at com.alibaba.datax.core.job.JobContainer.split(JobContainer.java:387)
+	at com.alibaba.datax.core.job.JobContainer.start(JobContainer.java:117)
+	at com.alibaba.datax.core.Engine.start(Engine.java:93)
+	at com.alibaba.datax.core.Engine.entry(Engine.java:175)
+	at com.alibaba.datax.core.Engine.main(Engine.java:208)
+
